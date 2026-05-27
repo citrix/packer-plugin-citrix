@@ -1,0 +1,19 @@
+# Build output
+*.exe
+*.test
+*.out
+
+# Test coverage
+coverage.txt
+coverage.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Packer cache
+packer_cache/

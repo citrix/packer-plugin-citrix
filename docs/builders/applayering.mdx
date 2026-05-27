@@ -1,0 +1,111 @@
+---
+description: >-
+  The citrix-applayering builder connects to Citrix App Layering (ELM) via its
+  SOAP API to create a Compositing Engine (CE) VM for layer packaging.
+page_title: Citrix App Layering - Builders - citrix-applayering
+nav_title: citrix-applayering
+---
+
+# Builder: citrix-applayering
+
+Type: `citrix-applayering`
+
+The citrix-applayering builder connects to a Citrix App Layering (ELM) appliance
+via its SOAP API. It creates a Compositing Engine (CE) VM for layer packaging,
+waits for the VM to obtain an IP address, and connects via WinRM so that Packer
+provisioners can install software inside the CE VM.
+
+Exactly one operation block must be present in a source block. The supported
+operations are:
+
+| Operation block            | Description                                    |
+|----------------------------|------------------------------------------------|
+| `create_app_layer`         | Create a new app layer                         |
+| `create_platform_layer`    | Create a new platform layer                    |
+| `revision_os_layer`        | Add a new version to an existing OS layer      |
+| `revision_platform_layer`  | Add a new version to an existing platform layer|
+| `revision_app_layer`       | Add a new version to an existing app layer     |
+| `connect_only`             | Debug: connect to an existing CE VM            |
+
+## Configuration Reference
+
+@include 'builder/citrix/applayering/config/Config.mdx'
+
+@include 'builder/citrix/applayering/config/Config-not-required.mdx'
+
+### Create App Layer
+
+@include 'builder/citrix/applayering/config/CreateAppConfig.mdx'
+
+@include 'builder/citrix/applayering/config/CreateAppConfig-not-required.mdx'
+
+### Create Platform Layer
+
+@include 'builder/citrix/applayering/config/CreatePlatformConfig.mdx'
+
+@include 'builder/citrix/applayering/config/CreatePlatformConfig-not-required.mdx'
+
+### Revision OS Layer
+
+@include 'builder/citrix/applayering/config/RevisionOsConfig.mdx'
+
+@include 'builder/citrix/applayering/config/RevisionOsConfig-not-required.mdx'
+
+### Revision Platform Layer
+
+@include 'builder/citrix/applayering/config/RevisionPlatformConfig.mdx'
+
+@include 'builder/citrix/applayering/config/RevisionPlatformConfig-not-required.mdx'
+
+### Revision App Layer
+
+@include 'builder/citrix/applayering/config/RevisionAppConfig.mdx'
+
+@include 'builder/citrix/applayering/config/RevisionAppConfig-not-required.mdx'
+
+### Connect Only (Debug)
+
+@include 'builder/citrix/applayering/config/ConnectOnlyConfig.mdx'
+
+@include 'builder/citrix/applayering/config/ConnectOnlyConfig-not-required.mdx'
+
+## Example Usage
+
+```hcl
+variable "elm_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "vm_password" {
+  type      = string
+  sensitive = true
+}
+
+source "citrix-applayering" "my_app" {
+  elm_server          = "your-elm-server.example.com"
+  elm_username        = "Administrator"
+  elm_password        = var.elm_password
+  insecure_connection = true
+
+  create_app_layer {
+    os_layer_name                  = "MyOsLayer"
+    os_layer_version_name          = "v1.0"
+    layer_name                     = "MyAppLayer"
+    version_name                   = "v1.0"
+    version_size_gb                = 10
+    platform_connector_config_name = "MyConnectorConfig"
+    icon_id                        = 196608
+  }
+
+  communicator   = "winrm"
+  winrm_username = "Administrator"
+  winrm_password = var.vm_password
+}
+
+build {
+  sources = ["source.citrix-applayering.my_app"]
+
+  provisioner "citrix-layerartifact" {}
+}
+```

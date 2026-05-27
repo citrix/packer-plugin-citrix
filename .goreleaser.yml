@@ -1,0 +1,56 @@
+# Copyright (c) Citrix, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+# GoReleaser config for packer-plugin-citrix.
+# Reference: http://goreleaser.com
+env:
+  - CGO_ENABLED=0
+before:
+  hooks:
+    - go test ./...
+    - make plugin-check
+builds:
+  - id: plugin-check
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    flags:
+      - -trimpath
+    ldflags:
+      - '-s -w -X {{ .ModulePath }}/version.Version={{.Version}} -X {{ .ModulePath }}/version.VersionPrerelease= '
+    goos:
+      - linux
+    goarch:
+      - amd64
+    binary: '{{ .ProjectName }}_v{{ .Version }}_{{ .Env.API_VERSION }}_{{ .Os }}_{{ .Arch }}'
+  - mod_timestamp: '{{ .CommitTimestamp }}'
+    flags:
+      - -trimpath
+    ldflags:
+      - '-s -w -X {{ .ModulePath }}/version.Version={{.Version}} -X {{ .ModulePath }}/version.VersionPrerelease= '
+    goos:
+      - windows
+    goarch:
+      - amd64
+    binary: '{{ .ProjectName }}_v{{ .Version }}_{{ .Env.API_VERSION }}_{{ .Os }}_{{ .Arch }}'
+archives:
+  - format: zip
+    files:
+      - none*
+    name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Env.API_VERSION }}_{{ .Os }}_{{ .Arch }}'
+checksum:
+  name_template: '{{ .ProjectName }}_v{{ .Version }}_SHA256SUMS'
+  algorithm: sha256
+signs:
+  - artifacts: checksum
+    args:
+      - "--batch"
+      - "--local-user"
+      - "{{ .Env.GPG_FINGERPRINT }}"
+      - "--output"
+      - "${signature}"
+      - "--detach-sign"
+      - "${artifact}"
+release:
+  # If you want to manually examine the release before its live, uncomment this line:
+  # draft: true
+changelog:
+  skip: true

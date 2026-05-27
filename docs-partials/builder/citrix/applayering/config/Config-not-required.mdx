@@ -1,0 +1,28 @@
+<!-- Code generated from the comments of the Config struct in builder/citrix/applayering/config/config.go; DO NOT EDIT MANUALLY -->
+
+- `elm_server` (string) - ELMServer is the URL (or hostname) of the ELM server.
+
+- `elm_username` (string) - ELMUsername is the ELM login username.
+
+- `elm_password` (string) - ELMPassword is the ELM login password.
+
+- `insecure_connection` (bool) - InsecureConnection skips TLS certificate verification. Use only for
+  testing with self-signed certificates.
+
+- `wait_for_ip_timeout` (int) - WaitForIpTimeout is the maximum number of seconds to wait for the
+  packaging machine to report its IP address. Defaults to 600.
+
+- `create_app_layer` (\*CreateAppConfig) - CreateApp configures a CREATE_APP_LAYER operation.
+
+- `create_platform_layer` (\*CreatePlatformConfig) - CreatePlatform configures a CREATE_PLATFORM_LAYER operation.
+
+- `revision_os_layer` (\*RevisionOsConfig) - RevisionOs configures a REVISION_OS_LAYER operation.
+
+- `revision_platform_layer` (\*RevisionPlatformConfig) - RevisionPlatform configures a REVISION_PLATFORM_LAYER operation.
+
+- `revision_app_layer` (\*RevisionAppConfig) - RevisionApp configures a REVISION_APP_LAYER operation.
+
+- `connect_only` (\*ConnectOnlyConfig) - ConnectOnly configures a CONNECT_* debug operation that connects to the
+  packaging VM without executing a layer operation.
+
+<!-- End of code generated from the comments of the Config struct in builder/citrix/applayering/config/config.go; -->

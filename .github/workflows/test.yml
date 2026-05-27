@@ -1,0 +1,24 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+      - 'feature-**'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  unit-tests:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run unit tests
+        run: go test ./...

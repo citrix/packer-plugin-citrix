@@ -1,0 +1,35 @@
+<!-- Code generated from the comments of the CreatePlatformConfig struct in builder/citrix/applayering/config/config.go; DO NOT EDIT MANUALLY -->
+
+- `hypervisor_platform` (string) - HypervisorPlatform is the hypervisor platform type (e.g. "vmware").
+
+- `provisioning_platform` (string) - ProvisioningPlatform is the provisioning platform (e.g. "MCS" or "None").
+
+- `broker_platform` (string) - BrokerPlatform is the broker platform (e.g. "Citrix VAD" or "None").
+
+- `os_layer_name` (string) - OsLayerName is the OS layer that the new platform layer will target.
+
+- `os_layer_version_name` (string) - OsLayerVersionName is the version of the OS layer.
+
+- `layer_name` (string) - LayerName is the name of the new platform layer.
+
+- `packaging_disk_file_name` (string) - PackagingDiskFileName is the optional packaging disk filename. Defaults
+  to LayerName.
+
+- `platform_connector_config_name` (string) - PlatformConnectorConfigName is the name of the connector configuration
+  defined in the ELM that controls how the packaging machine is deployed
+  to your hypervisor.
+
+- `icon_id` (int64) - IconId is the icon ID. Defaults to 196608.
+
+- `version_name` (string) - VersionName is the name of the new version.
+
+- `version_description` (string) - VersionDescription is an optional description.
+
+- `version_size_gb` (int32) - VersionSizeGb is the packaging disk size in GB. Defaults to 10.
+
+- `comment` (string) - Comment is an optional reason/comment for the operation.
+
+- `skip_cleanup_on_failure` (bool) - SkipCleanupOnFailure, when true, skips cancelling the ELM work ticket
+  on failure. By default (false) the work ticket is cancelled automatically.
+
+<!-- End of code generated from the comments of the CreatePlatformConfig struct in builder/citrix/applayering/config/config.go; -->

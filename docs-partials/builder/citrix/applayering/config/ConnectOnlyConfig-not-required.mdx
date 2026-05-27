@@ -1,0 +1,14 @@
+<!-- Code generated from the comments of the ConnectOnlyConfig struct in builder/citrix/applayering/config/config.go; DO NOT EDIT MANUALLY -->
+
+- `operation_type` (string) - OperationType identifies which type of active packaging session to connect
+  to. It must correspond to the operation that originally started the session:
+  CONNECT_CREATE_APP_VM_ONLY — reconnect to a create_app_layer session,
+  CONNECT_CREATE_PLATFORM_VM_ONLY — reconnect to a create_platform_layer session,
+  CONNECT_REVISION_APP_VM_ONLY — reconnect to a revision_app_layer session,
+  CONNECT_REVISION_PLATFORM_VM_ONLY — reconnect to a revision_platform_layer session,
+  CONNECT_REVISION_OS_VM_ONLY — reconnect to a revision_os_layer session.
+
+- `layer_name` (string) - LayerName is the name of the layer with an active packaging session in
+  the ELM. This is used to locate the open work ticket for the session.
+
+<!-- End of code generated from the comments of the ConnectOnlyConfig struct in builder/citrix/applayering/config/config.go; -->

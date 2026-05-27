@@ -1,0 +1,37 @@
+<!-- Code generated from the comments of the RevisionAppConfig struct in builder/citrix/applayering/config/config.go; DO NOT EDIT MANUALLY -->
+
+- `os_layer_name` (string) - OsLayerName is the OS layer to reference.
+
+- `os_layer_version_name` (string) - OsLayerVersionName is the version of the OS layer.
+
+- `platform_layer_name` (string) - PlatformLayerName is the optional platform layer to associate.
+
+- `platform_layer_version_name` (string) - PlatformLayerVersionName is the version of the optional platform layer.
+
+- `layer_name` (string) - LayerName is the name of the existing app layer to revise.
+
+- `base_version_name` (string) - BaseVersionName is the version to base the revision on. Empty means
+  auto-latest.
+
+- `prerequisite_layers` ([]string) - PrerequisiteLayers is an optional list of prerequisite app layers in
+  "LayerName:VersionName" format.
+
+- `packaging_disk_file_name` (string) - PackagingDiskFileName is the optional packaging disk filename. Defaults
+  to LayerName.
+
+- `platform_connector_config_name` (string) - PlatformConnectorConfigName is the name of the connector configuration
+  defined in the ELM that controls how the packaging machine is deployed
+  to your hypervisor.
+
+- `version_name` (string) - VersionName is the name of the new revision.
+
+- `version_description` (string) - VersionDescription is an optional description.
+
+- `version_size_gb` (int32) - VersionSizeGb is the packaging disk size in GB. Defaults to 10.
+
+- `comment` (string) - Comment is an optional reason/comment for the operation.
+
+- `skip_cleanup_on_failure` (bool) - SkipCleanupOnFailure, when true, skips cancelling the ELM work ticket
+  on failure. By default (false) the work ticket is cancelled automatically.
+
+<!-- End of code generated from the comments of the RevisionAppConfig struct in builder/citrix/applayering/config/config.go; -->

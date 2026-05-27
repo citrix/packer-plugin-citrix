@@ -1,0 +1,69 @@
+---
+description: >-
+  The citrix-layerartifact provisioner waits for the CE VM to complete
+  pre-finalization tasks and then shuts it down, triggering the ELM to finalize
+  and save the completed layer version.
+page_title: Citrix App Layering - Provisioners - citrix-layerartifact
+nav_title: citrix-layerartifact
+---
+
+# Provisioner: citrix-layerartifact
+
+Type: `citrix-layerartifact`
+
+The citrix-layerartifact provisioner waits for the Compositing Engine (CE) VM to
+complete pre-finalization tasks (`BlockFinalize`) and then calls `ShutdownForFinalize`
+to trigger the ELM to finalize and save the completed layer version.
+
+This provisioner should be the last (or only) provisioner in a build block that
+uses the `citrix-applayering` builder.
+
+## Configuration Reference
+
+**Optional**
+
+- `handle_run_once` (bool) - Controls how the provisioner responds when
+  `BlockFinalize` returns `IC_RUNONCE`, indicating the packaging machine has
+  pending HKLM `RunOnce` registry entries that must be processed before the
+  layer can be finalized.
+
+  When `false` (default), the provisioner halts with an error. To recover,
+  either set `handle_run_once = true` to process entries automatically, or set
+  `skip_cleanup_on_failure = true` in the builder block to keep the packaging
+  machine alive for manual processing.
+
+  When `true`, entries are processed one at a time automatically. Be aware that
+  many `RunOnce` entries expect an interactive Windows session, which the
+  headless packaging machine does not provide.
+
+## Example Usage
+
+```hcl
+source "citrix-applayering" "my_app" {
+  elm_server          = "your-elm-server.example.com"
+  elm_username        = "Administrator"
+  elm_password        = var.elm_password
+  insecure_connection = true
+
+  create_app_layer {
+    os_layer_name                  = "MyOsLayer"
+    os_layer_version_name          = "v1.0"
+    layer_name                     = "MyAppLayer"
+    version_name                   = "v1.0"
+    version_size_gb                = 10
+    platform_connector_config_name = "MyConnectorConfig"
+  }
+
+  communicator   = "winrm"
+  winrm_username = "Administrator"
+  winrm_password = var.vm_password
+}
+
+build {
+  sources = ["source.citrix-applayering.my_app"]
+
+  provisioner "citrix-layerartifact" {
+    # handle_run_once = true  # enable if your installers require RunOnce processing
+  }
+}
+```

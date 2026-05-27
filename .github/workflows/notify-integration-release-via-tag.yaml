@@ -1,0 +1,42 @@
+# Copyright (c) Citrix, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Notify Integration Release (Tag)
+on:
+  push:
+    tags:
+      - 'v*.*.*'   # Proper releases
+jobs:
+  strip_version:
+    runs-on: ubuntu-latest
+    outputs:
+      packer_version: ${{ steps.strip.outputs.packer_version }}
+    steps:
+      - name: Strip leading v from version tag
+        id: strip
+        env:
+          REF: ${{ github.ref_name }}
+        run: |
+          echo "packer_version=$(echo "$REF" | sed -E 's/v?([0-9]+\.[0-9]+\.[0-9]+)/\1/')" >> "$GITHUB_OUTPUT"
+  notify-release:
+    needs:
+      - strip_version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      # Perform the Release
+      - name: Checkout integration-release-action
+        uses: actions/checkout@v4
+        with:
+          repository: hashicorp/integration-release-action
+          path: ./integration-release-action
+      - name: Notify Release
+        uses: ./integration-release-action
+        with:
+          integration_identifier: "packer/citrix/citrix"
+          release_version: ${{ needs.strip_version.outputs.packer_version }}
+          release_sha: ${{ github.ref }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
