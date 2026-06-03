@@ -18,7 +18,7 @@ The plugin includes one builder and one provisioner:
 
 ## Requirements
 
-- [Go 1.26.0][golang-install] — required only if building the plugin from source.
+- [Go 1.26.4][golang-install] — required only if building the plugin from source.
 - Citrix App Layering (ELM) appliance reachable from the machine running Packer.
 - ELM TCP port 443 open from the Packer host to the ELM appliance.
 - CE VM TCP port 5985 (WinRM HTTP) open from the Packer host to the hypervisor network.

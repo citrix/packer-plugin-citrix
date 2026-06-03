@@ -5,7 +5,7 @@ your development environment, run tests, and submit changes.
 
 ## Prerequisites
 
-- [Go 1.26.0+](https://golang.org/doc/install)
+- [Go 1.26.4+](https://golang.org/doc/install)
 - [HashiCorp Packer 1.7.0+](https://developer.hashicorp.com/packer/downloads)
 - `packer-sdc` — required only if modifying config structs:
   ```shell
