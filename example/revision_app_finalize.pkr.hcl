@@ -28,8 +28,7 @@ source "citrix-applayering" "revision_app_final" {
   revision_app_layer {
     os_layer_name                  = "MyOsLayer"
     os_layer_version_name          = "v1.0"
-    platform_layer_name            = "MyPlatformLayer"
-    platform_layer_version_name    = "v1.0"
+    # platform_layer_name / platform_layer_version_name are optional; a platform layer is not required
     layer_name                     = "MyAppLayer"
     # base_version_name is optional — omit to auto-select latest
     base_version_name              = "v1.0"
