@@ -88,6 +88,10 @@ packer build my_app.pkr.hcl
 
 See the [example](./example/) folder for all supported operation types.
 
+The builder uses Packer's built-in WinRM communicator to connect to the CE VM. For
+WinRM connection details and the full list of options, see
+[Establish a WinRM Connection][docs-winrm].
+
 ## Supported Operations
 
 | Operation block | Description |
@@ -159,3 +163,4 @@ go generate ./...
 [golang-install]: https://golang.org/doc/install
 [releases-citrix-plugin]: https://github.com/citrix/packer-plugin-citrix/releases
 [docs-packer-plugin-install]: https://developer.hashicorp.com/packer/docs/plugins/install-plugins
+[docs-winrm]: https://developer.hashicorp.com/packer/docs/communicators/winrm
