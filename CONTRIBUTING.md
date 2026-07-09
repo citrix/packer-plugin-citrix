@@ -53,7 +53,7 @@ go generate ./...
 1. Fork the repository and create a feature branch.
 2. Make your changes, including tests where applicable.
 3. Ensure `go test ./...` passes and `go generate ./...` is up to date.
-4. Open a pull request against `master` with a clear description of the change.
+4. Open a pull request against `main` with a clear description of the change.
 
 ## Code Style
 

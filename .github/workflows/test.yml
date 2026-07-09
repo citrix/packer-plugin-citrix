@@ -3,22 +3,51 @@ name: Test
 on:
   push:
     branches:
-      - master
+      - main
       - 'feature-**'
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   unit-tests:
     runs-on: windows-latest
+    env:
+      # CI floor for hand-written coverage (auto-gen files excluded).
+      # The aspirational target in GNUmakefile (COVERAGE_MIN) stays at 80%;
+      # this floor only guards against regressions below the current baseline.
+      COVERAGE_MIN: "70.0"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
         with:
           go-version-file: go.mod
 
-      - name: Run unit tests
-        run: go test ./...
+      - name: Run unit tests with coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          go test -coverpkg=./... -coverprofile=coverage.out -covermode=atomic ./...
+          # Mirror GNUmakefile COVERAGE_EXCLUDE: drop auto-gen files from the report.
+          grep -v -E "elm_client\.go|hcl2spec\.go|/main\.go|version/version\.go" coverage.out > coverage-handwritten.out
+          echo ""
+          echo "=== Hand-written code coverage (auto-gen excluded) ==="
+          go tool cover -func=coverage-handwritten.out | tail -1
+
+      - name: Enforce coverage floor
+        shell: bash
+        run: |
+          set -euo pipefail
+          total=$(go tool cover -func=coverage-handwritten.out | tail -1 | awk '{print $3}' | tr -d '%')
+          awk -v t="$total" -v m="$COVERAGE_MIN" 'BEGIN{ if (t+0 < m+0) { printf "FAIL: coverage %.1f%% < %.1f%%\n", t, m; exit 1 } else { printf "OK: coverage %.1f%% >= %.1f%%\n", t, m } }'
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: coverage
+          path: |
+            coverage.out
+            coverage-handwritten.out

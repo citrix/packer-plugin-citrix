@@ -6,6 +6,8 @@
 # Test coverage
 coverage.txt
 coverage.html
+coverage-*.txt
+coverage*.out
 
 # OS files
 .DS_Store

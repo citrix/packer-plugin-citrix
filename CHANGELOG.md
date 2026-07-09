@@ -5,24 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2026-04-22
+## [1.0.2] - 2026-07-08
+
+### Added
+
+- 28 unit test files covering builder, provisioner, elm-client, and common packages
+  (hand-written code coverage reaches 72.2%)
+- CI coverage enforcement with 70% floor for hand-written code
+- Coverage reporting and artifact upload in GitHub Actions
+
+## [1.0.1] - 2026-06-03
 
 ### Changed
 
-- When ELM returns `WorkTicketId == 0` (e.g. a conflicting operation on the same
-  layer), the plugin now fails immediately and surfaces the ELM error message to
-  the admin. Previously the plugin retried with exponential backoff, which masked
-  the actual error. The `conflict_retry_timeout` and `conflict_retry_interval`
-  config fields have been removed.
-
-### Fixed
-
-- `base_version_name` in `revision_os_layer` was ignored — the SOAP request was not
-  passing `BaseLayerRevisionId`, causing ELM to always use the latest version as the
-  base. Platform and app revision steps were not affected.
-- All five create/revision steps now check for `WorkTicketId == 0` and report the
-  ELM error message (previously the plugin would continue with ticket 0 and
-  eventually fail with a confusing "work ticket 0 not found" error).
+- Bumped Go version from 1.26.0 to 1.26.4
+- Upgraded dependencies to fix SCA CVEs
 
 ## [1.0.0] - 2026-03-23
 
@@ -43,3 +40,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `insecure_connection` option for self-signed certificate environments
 - HCL2-native configuration with full `packer-sdc` generated specs
 - Example templates for all six operation types
+
+### Changed
+
+- When ELM returns `WorkTicketId == 0` (e.g. a conflicting operation on the same
+  layer), the plugin now fails immediately and surfaces the ELM error message to
+  the admin. Previously the plugin retried with exponential backoff, which masked
+  the actual error. The `conflict_retry_timeout` and `conflict_retry_interval`
+  config fields have been removed.
+
+### Fixed
+
+- `base_version_name` in `revision_os_layer` was ignored — the SOAP request was not
+  passing `BaseLayerRevisionId`, causing ELM to always use the latest version as the
+  base. Platform and app revision steps were not affected.
+- All five create/revision steps now check for `WorkTicketId == 0` and report the
+  ELM error message (previously the plugin would continue with ticket 0 and
+  eventually fail with a confusing "work ticket 0 not found" error).

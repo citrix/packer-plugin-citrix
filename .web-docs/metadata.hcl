@@ -18,7 +18,7 @@ integration {
   }
   license {
     type = "Apache-2.0"
-    url  = "https://github.com/citrix/packer-plugin-citrix/blob/master/LICENSE"
+    url  = "https://github.com/citrix/packer-plugin-citrix/blob/main/LICENSE"
   }
   component {
     type = "builder"
