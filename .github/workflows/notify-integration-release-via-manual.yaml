@@ -28,6 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: hashicorp/integration-release-action
+          ref: 5c982331bf102b6d9ffae6f820eb9ffda93cd7ea # main @ 2026-06-16 (no tags published)
           path: ./integration-release-action
       - name: Notify Release
         uses: ./integration-release-action
